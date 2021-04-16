@@ -17,21 +17,19 @@ usernameflag = True
 while(passwordflag):
 
     while(usernameflag):
-        username = raw_input("Username: ")
+        username = input("Username: ")
         for k in adminPSSWD:
             if username == k[0]:
                 usernameflag = False
         if usernameflag == True:
             print("No username recorded")
 
-
-
-    password = raw_input("Password: ")
+    password = input("Password: ")
 
     for i in adminPSSWD:
         if username == i[0]:
             if password == i[1]:
-                adminverify = raw_input("Admin ID: ")
+                adminverify = input("Admin ID: ")
                 if i[2] == adminverify:
                     loggedin = True
                     print("Access Granted")
@@ -47,12 +45,12 @@ while(passwordflag):
 
 #everything else can only happen when loggedin
 while (loggedin):
-    command = raw_input("What next? ")
+    command = input("What next? ")
     #will make a command list here to keep track of all admin commands
 
 #logout
     if command == "logout":
-        logoutCheck = raw_input("Are you sure you want to logout? (Y/N)")
+        logoutCheck = input("Are you sure you want to logout? (Y/N)")
         if logoutCheck in ["Y","y","yes","Yes"]:
             loggedin = False
 
@@ -63,20 +61,20 @@ while (loggedin):
         while(checkwho):
             who = ""
             print(who)
-            who = raw_input("user or admin? ")
+            who = input("user or admin? ")
             print(who)
 
             #user password change
             if who in ["user","User"]:
                 print(who, "hit")
-                userchange = raw_input("username: ")
-                oldpassword = raw_input("old password: ")
+                userchange = input("username: ")
+                oldpassword = input("old password: ")
                 for i in userPSSWD:
                     if userchange == i[0]:
                         if oldpassword == i[1]:
                             passcheck = True
                             while(passcheck):
-                                newpassword = raw_input("new password: ")
+                                newpassword = input("new password: ")
                                 if newpassword == oldpassword or newpassword == "":
                                     print("new password cannot be old password or nothing")
 
@@ -90,15 +88,15 @@ while (loggedin):
 
             #admin password change
             elif who in ["admin","Admin"]:
-                adminchange = raw_input("Admin: ")
-                adminIDchange = raw_input("Admin ID: ")
-                oldpassword = raw_input("old password: ")
+                adminchange = input("Admin: ")
+                adminIDchange = input("Admin ID: ")
+                oldpassword = input("old password: ")
                 for i in adminPSSWD:
                     if userchange == i[0]:
                         if oldpassword == i[1] and i[2] == adminIDchange:
                             passcheck = True
                             while(passcheck):
-                                newpassword = raw_input("new password: ")
+                                newpassword = input("new password: ")
                                 if newpassword == oldpassword or newpassword == "":
                                     print("new password cannot be old password or nothing")
 
@@ -125,7 +123,7 @@ while (loggedin):
         while(correctcheck):  #need to check if username is already taken
             while(finduser):
                 alreadyuser = False
-                newUser = raw_input("Username: ")
+                newUser = input("Username: ")
                 if newUser == "":
                     print("Must have username")
                 for b in userPSSWD:
@@ -134,7 +132,7 @@ while (loggedin):
                         print("Username already taken")
                 if alreadyuser == False:
                     finduser = False
-            newPassword = raw_input("Password: ")
+            newPassword = input("Password: ")
             if newPassword == "":
                 print("Must have password")
 
@@ -154,13 +152,13 @@ while (loggedin):
         userFlag = True
         while(checkuser):
             while(userFlag):
-                delUser = raw_input("Username: ")
+                delUser = input("Username: ")
                 for k in userPSSWD:
                     if delUser == k[0]:
                         userFlag = False
                 if userFlag == True:
                     print("User does not exist")
-            delPassword = raw_input("Password: ")
+            delPassword = input("Password: ")
             for i in userPSSWD:
                 if delUser == i[0]:
                     if delPassword == i[1]:
