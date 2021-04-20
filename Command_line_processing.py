@@ -1,13 +1,8 @@
 import json
-from User import edit_database
+from User import edit_database, record
+from database import import_database, export_database
 
-def wut():
-    print("wutwut")
-
-def wutwut(yes):
-    print(yes)
-
-Func_Dict = {"wut": wut, "wutwut": wutwut, "database":edit_database}
+Func_Dict = {"database":edit_database, "imd":import_database, "exd":export_database}
 
 
 class Current_User():
@@ -18,7 +13,7 @@ class Current_User():
         self.user_dict = {}
         self.admin_dict = {}
         self.database = {}
-        self.audit_log = []
+        self.audit_log = {}
 
     def initialization(self):
         #load your dict and stuff
@@ -68,4 +63,10 @@ class Current_User():
             f.close()
 
 guy = Current_User()
-# guy.main_loop()
+guy.login_status = True
+guy.admin_priviliages = True
+new_record = record("wut","the","fuk")
+guy.database["1"] = new_record
+new_record = record("wut2","the2","fuk2")
+guy.database["2"] = new_record
+guy.main_loop()

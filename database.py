@@ -1,5 +1,5 @@
-from Command_line_processing import Current_User
 import json
+from User.py import record
 
 def import_database(current_user, input_file= None):
     if not current_user.login_status:
@@ -13,7 +13,14 @@ def import_database(current_user, input_file= None):
         return
     try:
         with open(input_file, 'r') as f:
-            current_user.database = json.loads(f.readline())
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip().split(":")
+                print(line[0])
+                record = line[1].strip("[").strip("]").strip("\"").split(",")
+                
+                
+                # current_user[line[0]] = line[1]
         f.close()
     except FileNotFoundError:
         print("Can't open input file")
@@ -34,15 +41,11 @@ def export_database(current_user, file_name= None):
         return
     try:
         with open(file_name, 'w') as f:
-            f.write(json.dumps(current_user.database))
+            for keys in current_user.database.keys():
+                f.write(json.dumps(keys) + ":" + json.dumps(current_user.database[keys].to_list()) + "\n")
         f.close()
     except FileNotFoundError:
         print("Can't open input file")
         return
 
     print("OK")
-
-guy = Current_User()
-guy.login_status = True
-guy.admin_priviliages = True
-import_database(guy)

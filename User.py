@@ -6,10 +6,17 @@ class record:
 
     def edit_fn(self, new_name):
         self.fn = new_name
+
     def edit_ln(self, new_name):
         self.ln = new_name
+
     def edit_address(self, new_address):
         self.address = new_address 
+
+    def to_list(self):
+        return [self.fn, self.ln, self.address]
+    
+
 
 
 def edit_database(address_database):

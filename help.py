@@ -1,0 +1,36 @@
+def help():
+    help_dict= {"LIN":"LIN <userID>", }
+
+    if (command[0] == "HLP"):
+        if (command[1] == "LIN"): print("LIN <userID>") 
+        elif (command[1] == "LOU"): print("LOU <>") 
+        elif (command[1] == "CHP"): print("CHP <old password>") 
+        elif (command[1] == "ADU"): print("ADU <userID>") 
+        elif (command[1] == "DEU"): print("DEU <userID>") 
+        elif (command[1] == "LSU"): print("LSU <>") 
+        elif (command[1] == "DAL"): print("DAL [<userID>]") 
+        elif (command[1] == "ADR"): print("ADR <recordID> [<field1=value1> <field2=value2> ...]") 
+        elif (command[1] == "DER"): print("DER <recordID>") 
+        elif (command[1] == "EDR"): print("EDR <recordID> [<field1=value1> <field2=value2> ...]") 
+        elif (command[1] == "RER"): print("RER <recordID> [<fieldname> ...]") 
+        elif (command[1] == "IMD"): print("IMD <Input_File>") 
+        elif (command[1] == "EXD"): print("EXD <Output_File>") 
+        elif (command[1] == "HLP"): print("HLP <command name>") 
+        elif (command[1] == "EXT"): print("EXT <>") 
+        else:
+            print("Login: LIN <userID>") 
+            print("Logout: LOU <>") 
+            print("Change Password: CHP <old password>") 
+            print("Add User: ADU <userID>") 
+            print("Delete User: DEU <userID>") 
+            print("List Users: LSU <>") 
+            print("Display Audit Log: DAL [<userID>]") 
+            print("Add Record: ADR <recordID> [<field1=value1> <field2=value2> ...]") 
+            print("Delete Record: DER <recordID>") 
+            print("Edit Record: EDR <recordID> [<field1=value1> <field2=value2> ...]") 
+            print("Read Record: RER <recordID> [<fieldname> ...]") 
+            print("Import Database: IMD <Input_File>") 
+            print("Export Database: EXD <Output_File>") 
+            print("Help: HLP <command name>") 
+            print("Exit: EXT <>") 
+      
