@@ -6,22 +6,33 @@ def Login(current_user, ID):
 
     else:
         passwd = input("Password: ")
-
         if ID in current_user.admin_dict.keys():
             if passwd == current_user.admin_dict[ID]:
                 current_user.login_status = True
                 current_user.admin_priviliages = True
                 current_user.current_id = ID
+                current_user.audit.set_items(2, current_user.current_id)
+                current_user.update_audit = True
                 print("OK")
             else:
+                current_user.audit.set_items(1, current_user.current_id)
+                current_user.update_audit = True
                 print("Invalid Credentials")
         elif ID in current_user.user_dict.keys():
             if passwd == current_user.user_dict[ID]:
                 current_user.login_status = True
                 current_user.admin_priviliages = False
                 current_user.current_id = ID
+                if ID in current_user.newly_created:
+                    current_user.newly_created.remove(ID)
+                    current_user.audit.set_items([2,3], current_user.current_id)
+                else:
+                    current_user.audit.set_items(3, current_user.current_id)
+                current_user.update_audit = True
                 print("OK")
             else:
+                current_user.audit.set_items(1, current_user.current_id)
+                current_user.update_audit = True
                 print("Invalid Credentials")
         else:
             print("Invalid Credentials")
@@ -37,6 +48,8 @@ def Logout(current_user):
             current_user.login_status = False
             current_user.admin_priviliages = False
             current_user.current_id = 0
+            current_user.audit.set_items(8, current_user.current_id)
+            current_user.update_audit = True
             print("OK")
 
 
@@ -47,24 +60,28 @@ def adminChangePassword(current_user, oldpassword):
         if oldpassword == current_user.admin_dict[current_user.current_id]:
             newpassword = input("new password: ")
             if newpassword == oldpassword or newpassword == "":
+                current_user.audit.set_items(5, current_user.current_id)
+                current_user.update_audit = True
                 print("new password cannot be old password or nothing")
             else:
                 current_user.admin_dict[current_user.current_id] = newpassword
+                current_user.audit.set_items(4, current_user.current_id)
+                current_user.update_audit = True
                 print("password changed")
         else:
+            current_user.audit.set_items(5, current_user.current_id)
+            current_user.update_audit = True
             print("Invalid Credentials")
     else:
-        print("No Active Admin Session")
+        print("No Active login Session")
 
 
 
 
 
 #add user
-def addUser(current_user, userID=None):
+def addUser(current_user, userID):
     if current_user.login_status == True and current_user.admin_priviliages == True:
-        if userID == None:
-            print("Must have User ID")
         if userID in current_user.user_dict.keys():
             print("User ID already taken")
         else:
@@ -74,7 +91,9 @@ def addUser(current_user, userID=None):
             else:
                 current_user.user_dict[userID] = newPassword
                 current_user.current_id = userID
-                current_user.audit_log[current_user.current_id] = []
+                current_user.newly_created.append(userID)
+                current_user.audit.set_items(6, current_user.current_id)
+                current_user.update_audit = True
     else:
         print("Invalid Credentials")
 
@@ -85,6 +104,8 @@ def addUser(current_user, userID=None):
 def deleteUser(current_user, userID):
     if current_user.login_status == True and current_user.admin_priviliages == True:
         if userID in current_user.user_dict.keys():
+            current_user.audit.set_items(7, current_user.current_id)
+            current_user.update_audit = True
             current_user.user_dict.pop(userID, None)
         else:
             print("User does not exist")
@@ -93,11 +114,17 @@ def deleteUser(current_user, userID):
 
 
 #display audit log
-def auditLog(current_user, userID):
+def auditLog(current_user, userID=None):
     if current_user.login_status == True and current_user.admin_priviliages == True:
-        if 
-        for item in current_user.audit_log[userID]:
-            print(item)
+        if userID != None:
+            for item in current_user.audit_log:
+                if item.current_id == userID:
+                    item.print_record()
+        else:
+            for item in current_user.audit_log:
+                item.print_record()
+    else:
+        print("Invalid Credentials")
 
 def listUsers(current_user):    
     if current_user.login_status == True and current_user.admin_priviliages == True:        
