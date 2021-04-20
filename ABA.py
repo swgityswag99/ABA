@@ -11,16 +11,6 @@ Func_Dict = {"imd":import_database, "exd":export_database,
 from datetime import date, datetime 
 messages = {1:"LF", 2:"LS", 3:"L1", 4:"SPC", 5:"FPC",
                         6:"AU", 7:"DU", 8:"LO"}
-#  Failed logins (LF)
-# • Successful logins (LS)
-# • First logins (L1) - when passwords are first created; both L1 and LS records are generated
-# • Logouts (LO)
-# • Successful password changes (SPC)
-# • Failed password changes (FPC)
-# • Added users (AU)
-# • Deleted users (DU)
-# Audit records shall have the following fields:
-#       Date, Time, Audit record type, UserID
 class Audit():
     def __init__(self):
         self.time = None
