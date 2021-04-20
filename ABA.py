@@ -69,6 +69,9 @@ class Current_User():
             user_input = input("ABA>")
             user_input = user_input.lower().strip().split(" ")
             num_args = len(user_input) - 1
+            if user_input[0] == "ext":
+                print("Okay")
+                self.exit()
             if user_input[0] in Func_Dict.keys():
                 try:
                     if user_input[0] == "adr" or user_input[0] == "edr":
@@ -77,9 +80,6 @@ class Current_User():
                             temp.append(item)
                         del user_input[2:-1]
                         num_args = 2
-                    if user_input[0] == "ext":
-                        print("Okay")
-                        self.exit()
                     elif num_args == 0:
                         Func_Dict.get(user_input[0])(self)
                     elif num_args == 1:
@@ -108,18 +108,7 @@ class Current_User():
         with open("admin.txt", 'w') as f:
             f.write(json.dumps(self.admin_dict))
         f.close()
-        exit(self, 0)
+        exit(0)
 
 guy = Current_User()
-guy.login_status = True
-guy.admin_priviliages = True
-new_record = Record()
-new_record.fn = "wut"
-new_record.id = "1"
-guy.database[new_record.id] = new_record
-new_record = Record()
-new_record.fn = "wut"
-new_record.ln = "tf"
-new_record.id = "2"
-guy.database[new_record.id] = new_record
 guy.main_loop()
