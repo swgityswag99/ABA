@@ -1,4 +1,5 @@
 import json
+from User import edit_database
 
 def wut():
     print("wutwut")
@@ -6,15 +7,18 @@ def wut():
 def wutwut(yes):
     print(yes)
 
-Func_Dict = {"wut": wut, "wutwut": wutwut}
+Func_Dict = {"wut": wut, "wutwut": wutwut, "database":edit_database}
 
-class Current_User:
-    self.login_status = False
-    self.admin_priviliages = False
-    self.current_id = 0
-    self.user_dict = {}
-    self.admin_dict = {}
-    self.database = None
+
+class Current_User():
+    def __init__(self):
+        self.login_status = False
+        self.admin_priviliages = False
+        self.current_id = 0
+        self.user_dict = {}
+        self.admin_dict = {}
+        self.database = {}
+        self.audit_log = []
 
     def initialization(self):
         #load your dict and stuff
@@ -25,7 +29,7 @@ class Current_User:
         except FileNotFoundError:pass
 
         try:
-            with open("user.txt", 'r') as f:
+            with open("admin.txt", 'r') as f:
                 self.user_dict = json.loads(f.readline())
             f.close()
         except FileNotFoundError:pass
@@ -41,11 +45,11 @@ class Current_User:
                     print("Thank you and good bye")
                     self.exit()
                 elif num_args == 0:
-                    Func_Dict.get(user_input[0])()
+                    Func_Dict.get(user_input[0])(self)
                 elif num_args == 1:
-                    Func_Dict.get(user_input[0])(user_input[1])
+                    Func_Dict.get(user_input[0])(self, user_input[1])
                 elif num_args == 2:
-                    Func_Dict.get(user_input[0])(user_input[1], user_input[2])
+                    Func_Dict.get(user_input[0])(self, user_input[1], user_input[2])
                 else:
                     print("Incorrect usage, input help for assistance")
             else:
@@ -64,4 +68,4 @@ class Current_User:
             f.close()
 
 guy = Current_User()
-guy.main_loop()
+# guy.main_loop()

@@ -339,7 +339,7 @@ while True:
             print("OK")
             continue
 
-
+    
     #############Miscellaneous Commands#############
     #Help command: Syntax - HLP
     if (command[0] == "HLP"):
@@ -375,6 +375,8 @@ while True:
             print("Help: HLP <command name>") 
             print("Exit: EXT <>") 
             continue
+
+
 
     #Exit command: Syntax - EXT: closes open session, if any, and always exists program
     elif (command[0] == "EXT"):
