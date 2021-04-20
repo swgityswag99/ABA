@@ -36,7 +36,6 @@ def import_database(current_user, input_file= None):
                     if(len(line) > 0):
                         new_record = Record()
                         line = line.strip().split(":")
-                        print(line)
                         record_line = line[1].strip("\"").split(";")
                         length = 0
                         list_strings = []
