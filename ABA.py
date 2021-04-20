@@ -1,11 +1,13 @@
 import json
-from User import add_record, Record
+from User import add_record, Record, delete_record, edit_record, get_record
+from misc import print_help
 from misc import print_help
 from database import import_database, export_database
 from admin import Login, Logout, adminChangePassword, addUser, deleteUser, auditLog, listUsers
 Func_Dict = {"imd":import_database, "exd":export_database,
                 "lin":Login, "lou":Logout, "chp":adminChangePassword, "adr":add_record,
-                "adu":addUser, "deu":deleteUser, "dal":auditLog,"lsu":listUsers, "hlp":print_help}
+                "adu":addUser, "deu":deleteUser, "dal":auditLog,"lsu":listUsers, "hlp":print_help,
+                "der":delete_record, "edr":edit_record, "rer":get_record}
 from datetime import date, datetime 
 messages = {1:"LF", 2:"LS", 3:"L1", 4:"SPC", 5:"FPC",
                         6:"AU", 7:"DU", 8:"LO"}
@@ -75,31 +77,26 @@ class Current_User():
             user_input = user_input.lower().strip().split(" ")
             num_args = len(user_input) - 1
             if user_input[0] in Func_Dict.keys():
-                # try:
-                if user_input[0] == "adr" or user_input[0] == "edr":
-                    print("here")
-                    print("here")
-                    temp = []
-                    for item in user_input[2:-1]:
-                        temp.append(item)
-                    del user_input[2:-1]
-                    user_input[2] = temp
-                    print(temp)
-                    print(user_input)
-                    num_args = 2
-                if user_input[0] == "exit":
-                    print("Thank you and good bye")
-                    self.exit()
-                elif num_args == 0:
-                    Func_Dict.get(user_input[0])(self)
-                elif num_args == 1:
-                    Func_Dict.get(user_input[0])(self, user_input[1])
-                elif num_args == 2:
-                    Func_Dict.get(user_input[0])(self, user_input[1], user_input[2])
-                else:
-                    print("Incorrect usage, input help for assistance")
-                # except TypeError:
-                #     print("Incorrect number of parameters, input help for assistance")
+                try:
+                    if user_input[0] == "adr" or user_input[0] == "edr":
+                        temp = []
+                        for item in user_input[2:]:
+                            temp.append(item)
+                        del user_input[2:-1]
+                        num_args = 2
+                    if user_input[0] == "ext":
+                        print("Thank you and good bye")
+                        self.exit()
+                    elif num_args == 0:
+                        Func_Dict.get(user_input[0])(self)
+                    elif num_args == 1:
+                        Func_Dict.get(user_input[0])(self, user_input[1])
+                    elif num_args == 2:
+                        Func_Dict.get(user_input[0])(self, user_input[1], user_input[2])
+                    else:
+                        print("Incorrect usage, input help for assistance")
+                except TypeError:
+                    print("Incorrect number of parameters, input help for assistance")
             else:
                 print("Incorrect usage, input help for assistance")
             if self.update_audit == True:

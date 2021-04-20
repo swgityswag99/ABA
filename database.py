@@ -63,8 +63,7 @@ def import_database(current_user, input_file= None):
                     new_record.id = record_line[0]
                     current_user.database[record_line[0]] = new_record
                     if len(used_id) > 256:
-                        print("Exceeding maximum size")
-                        return 
+                        print("Exceeding maximum")
             except IndexError:
                 print("Input_file invalid format")
         f.close()
