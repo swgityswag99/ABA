@@ -4,24 +4,14 @@ from User import Record
 
 import base64
 import os
-import cryptography
 from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-
-password = b"password"
-salt = b'15'
-
-kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=100000,
-    backend=None,
-)
-key = base64.urlsafe_b64encode(kdf.derive(password))
+  
+# key is generated
+key = Fernet.generate_key()
+  
+# value of key is assigned to a variable
 f_key = Fernet(key)
-
+  
 def import_database(current_user, input_file= None):
     if not current_user.login_status:
         print("No active Login Session")
@@ -40,7 +30,6 @@ def import_database(current_user, input_file= None):
                 while byte != b"":
                     original_message += byte
                     byte = f.read(1)
-
                 d = f_key.decrypt(original_message)
                 used_id = []
                 for line in d.decode().split("\n"):

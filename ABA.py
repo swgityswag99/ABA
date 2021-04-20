@@ -111,4 +111,15 @@ class Current_User():
         exit(0)
 
 guy = Current_User()
+guy.login_status = True
+guy.admin_priviliages = True
+new_record = Record()
+new_record.fn = "wut"
+new_record.id = "1"
+guy.database[new_record.id] = new_record
+new_record = Record()
+new_record.fn = "wut"
+new_record.ln = "tf"
+new_record.id = "2"
+guy.database[new_record.id] = new_record
 guy.main_loop()
