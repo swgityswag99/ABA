@@ -1,5 +1,5 @@
 import json
-from User.py import record
+from User import record as Record
 
 def import_database(current_user, input_file= None):
     if not current_user.login_status:
@@ -16,12 +16,14 @@ def import_database(current_user, input_file= None):
             lines = f.readlines()
             for line in lines:
                 line = line.strip().split(":")
-                print(line[0])
-                record = line[1].strip("[").strip("]").strip("\"").split(",")
-                
-                
-                # current_user[line[0]] = line[1]
+                record_line = line[1].strip("[").strip("]").strip("\"").split(",")
+
+                record = Record(record_line[0],record_line[1],record_line[2])
+                current_user.database[line[0]] = record
         f.close()
+        print(current_user.database)
+        print(len(current_user.database.keys()))
+        print(len(current_user.database))
     except FileNotFoundError:
         print("Can't open input file")
         return

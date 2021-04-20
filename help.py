@@ -1,5 +1,12 @@
 def help():
-    help_dict= {"LIN":"LIN <userID>", }
+    help_dict = {"HLP": "Login: LIN <userID> \n Logout: LOU <> \n Change Password: CHP <old password> \n Add User: ADU <userID> \n Delete User: DEU <userID> \n List Users: LSU <> \n Display Audit Log: DAL [<userID>] \n Add Record: ADR <recordID> [<field1=value1> <field2=value2> ...] \n Delete Record: DER <recordID> \n Edit Record: EDR <recordID> [<field1=value1> <field2=value2> ...] \n Read Record: RER <recordID> [<fieldname> ...] \n Import Database: IMD <Input_File> \n Export Database: EXD <Output_File> \n Help: HLP <command name> \n Exit: EXT <>"}
+    print(help_dict)
+    
+    
+    
+    help_dict2 = {"LIN":"LIN <userID>", "LOU":"LOU <>", "CHP": "CHP <old pass>", "ADU": "ADU <userID>", "DEU": "DEU <userID>", "LSU": "LSU <>", "DAL": "DAL [<userID>]", "ADR": "ADR <recordID> [<field1=value1> <field2=value2> ...]", "DER": "DER <recordID>", "EDR" : "EDR <recordID> [<field1=value1> <field2=value2> ...]", "RER": "RER <recordID> [<fieldname> ...]", "IMD":"IMD <Input_File>", "EXD" :"EXD <Output_File>", "HLP": "HLP <command name>", "EXT": "EXT <>",}
+    
+
 
     if (command[0] == "HLP"):
         if (command[1] == "LIN"): print("LIN <userID>") 

@@ -1,179 +1,110 @@
-
-
-#10 digit alpha numerics randomly generated
-#list with the username and password (need to put these in a file)
-adminPSSWD = [["happyfish", "bobbyfish", "wiqhmx01ri"], ["armara367", "coffeelover86", "83qmd2sp48"], ["katieMarie", "iloveBrad23", "vl8fazbe3f"]]
-userPSSWD = [["bobbyjean", "ilovepizza"], ["missycopeland", "ilovefred24"], ["katieMarie", "iloveBrad23"]]
-
-#text files of data
-file = open("admindoc.txt", "w")
-
-loggedin = False
-passwordtries = 0
-
 #login
-passwordflag = True
-usernameflag = True
-while(passwordflag):
+def Login(current_user, ID):
 
-    while(usernameflag):
-        username = input("Username: ")
-        for k in adminPSSWD:
-            if username == k[0]:
-                usernameflag = False
-        if usernameflag == True:
-            print("No username recorded")
+    if current_user.login_status == True:
+        print("Already logged in")
 
-    password = input("Password: ")
+    else:
+        passwd = input("Password: ")
 
-    for i in adminPSSWD:
-        if username == i[0]:
-            if password == i[1]:
-                adminverify = input("Admin ID: ")
-                if i[2] == adminverify:
-                    loggedin = True
-                    print("Access Granted")
-                    passwordflag = False
-                else:
-                    print("Admin ID not verifiable")
+        if ID in current_user.admin_dict.keys():
+            if passwd == current_user.admin_dict[ID]:
+                current_user.login_status = True
+                current_user.admin_priviliages = True
+                current_user.current_id = ID
+                print("OK")
             else:
-                print("Incorrect Password\n")
-                passwordtries += 1
-                if passwordtries > 2:
-                    print("Too many login attempts")
-                    passwordflag = False
-
-#everything else can only happen when loggedin
-while (loggedin):
-    command = input("What next? ")
-    #will make a command list here to keep track of all admin commands
+                print("Invalid Credentials")
+        elif ID in current_user.user_dict.keys():
+            if passwd == current_user.user_dict[ID]:
+                current_user.login_status = True
+                current_user.admin_priviliages = False
+                current_user.current_id = ID
+                print("OK")
+            else:
+                print("Invalid Credentials")
+        else:
+            print("Invalid Credentials")
 
 #logout
-    if command == "logout":
+def Logout(current_user):
+    if current_user.login_status == False:
+        print("No login session")
+
+    else:
         logoutCheck = input("Are you sure you want to logout? (Y/N)")
         if logoutCheck in ["Y","y","yes","Yes"]:
-            loggedin = False
+            current_user.login_status = False
+            current_user.admin_priviliages = False
+            current_user.current_id = 0
+            print("OK")
 
 
 #change password
-    if command == "changepassword":
-        checkwho = True
-        while(checkwho):
-            who = ""
-            print(who)
-            who = input("user or admin? ")
-            print(who)
+def adminChangePassword(current_user, oldpassword):
 
-            #user password change
-            if who in ["user","User"]:
-                print(who, "hit")
-                userchange = input("username: ")
-                oldpassword = input("old password: ")
-                for i in userPSSWD:
-                    if userchange == i[0]:
-                        if oldpassword == i[1]:
-                            passcheck = True
-                            while(passcheck):
-                                newpassword = input("new password: ")
-                                if newpassword == oldpassword or newpassword == "":
-                                    print("new password cannot be old password or nothing")
-
-                                else:
-                                    i[1] = newpassword
-                                    print("password changed")
-                                    passcheck = False
-                                    checkwho = False
-                        else:
-                            print("Incorrect password")
-
-            #admin password change
-            elif who in ["admin","Admin"]:
-                adminchange = input("Admin: ")
-                adminIDchange = input("Admin ID: ")
-                oldpassword = input("old password: ")
-                for i in adminPSSWD:
-                    if userchange == i[0]:
-                        if oldpassword == i[1] and i[2] == adminIDchange:
-                            passcheck = True
-                            while(passcheck):
-                                newpassword = input("new password: ")
-                                if newpassword == oldpassword or newpassword == "":
-                                    print("new password cannot be old password or nothing")
-
-                                else:
-                                    i[1] = newpassword
-                                    print("password changed")
-                                    passcheck = False
-                                    checkwho = False
-                        else:
-                            print("Incorrect password or Admin ID")
-                            break
-
+    if current_user.login_status == True:
+        if oldpassword == current_user.admin_dict[current_user.current_id]:
+            newpassword = input("new password: ")
+            if newpassword == oldpassword or newpassword == "":
+                print("new password cannot be old password or nothing")
             else:
-                print(who)
-                print("choose user or admin")
+                current_user.admin_dict[current_user.current_id] = newpassword
+                print("password changed")
+        else:
+            print("Invalid Credentials")
+    else:
+        print("No Active Admin Session")
+
 
 
 
 
 #add user
-    if command == "adduser":
-        correctcheck = True
-        finduser = True
-        while(correctcheck):  #need to check if username is already taken
-            while(finduser):
-                alreadyuser = False
-                newUser = input("Username: ")
-                if newUser == "":
-                    print("Must have username")
-                for b in userPSSWD:
-                    if newUser == b[0]:
-                        alreadyuser = True
-                        print("Username already taken")
-                if alreadyuser == False:
-                    finduser = False
+def addUser(current_user, userID=None):
+    if current_user.login_status == True and current_user.admin_priviliages == True:
+        if userID == None:
+            print("Must have User ID")
+        if userID in current_user.user_dict.keys():
+            print("User ID already taken")
+        else:
             newPassword = input("Password: ")
             if newPassword == "":
                 print("Must have password")
-
             else:
-                newUseradd = [newUser, newPassword]
-                userPSSWD.append(newUseradd)
-                print("New User Added!")
-                correctcheck = False
-        print("check user")
-        print(userPSSWD)
+                current_user.user_dict[userID] = newPassword
+                current_user.current_id = userID
+                current_user.audit_log[current_user.current_id] = []
+    else:
+        print("Invalid Credentials")
+
 
 
 
 #delete user
-    if command == "deleteuser":
-        checkuser = True
-        userFlag = True
-        while(checkuser):
-            while(userFlag):
-                delUser = input("Username: ")
-                for k in userPSSWD:
-                    if delUser == k[0]:
-                        userFlag = False
-                if userFlag == True:
-                    print("User does not exist")
-            delPassword = input("Password: ")
-            for i in userPSSWD:
-                if delUser == i[0]:
-                    if delPassword == i[1]:
-                        userPSSWD.remove(i)
-                        print("user removed")
-                        checkuser = False
-                    else:
-                        print("Incorrect Password\n")
-        print("check user")
-        print(userPSSWD)
+def deleteUser(current_user, userID):
+    if current_user.login_status == True and current_user.admin_priviliages == True:
+        if userID in current_user.user_dict.keys():
+            current_user.user_dict.pop(userID, None)
+        else:
+            print("User does not exist")
+    else:
+        print("Invalid Credentials")
 
 
 #display audit log
-    #could add another part to the list that stores all of the user's commands?
+def auditLog(current_user, userID):
+    if current_user.login_status == True and current_user.admin_priviliages == True:
+        if 
+        for item in current_user.audit_log[userID]:
+            print(item)
 
-
-    else:
-        print("invalid command")
+def listUsers(current_user):    
+    if current_user.login_status == True and current_user.admin_priviliages == True:        
+        for key in current_user.user_dict:            
+            print(key)
+            print("\n")
+        print("OK")
+    else:        
+        print("Invalid Credentials")
+        
