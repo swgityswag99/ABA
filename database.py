@@ -16,7 +16,8 @@ kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
     salt=salt,
-    iterations=100000
+    iterations=100000,
+    backend=None,
 )
 key = base64.urlsafe_b64encode(kdf.derive(password))
 f_key = Fernet(key)
