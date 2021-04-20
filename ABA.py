@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 import json
 from User import add_record, Record, delete_record, edit_record, get_record
 from misc import print_help
