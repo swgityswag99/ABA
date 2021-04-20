@@ -61,7 +61,7 @@ class Current_User():
         except FileNotFoundError:pass
 
     def main_loop(self):
-        print("Address Book Application, version <1>. Type “HLP” for a list of commands.")
+        print("Address Book Application, version <1>. Type \"HLP\" for a list of commands.")
         while(True):
             user_input = input("ABA>")
             user_input = user_input.lower().strip().split(" ")
