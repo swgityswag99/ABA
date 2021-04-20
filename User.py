@@ -15,6 +15,9 @@ class Record:
 
     def edit(self, info_string):
         more_new_str = info_string.split('=')
+        if(len(more_new_str[1]) > 64):
+            print("record data field too long for " + more_new_str[0])
+            return
         if more_new_str[0] == "gn":
             self.fn = more_new_str[1]
         elif more_new_str[0] == "sn":

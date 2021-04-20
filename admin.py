@@ -81,13 +81,20 @@ def adminChangePassword(current_user, oldpassword):
 
 #add user
 def addUser(current_user, userID):
+    if((len(current_user.user_dict.keys()) + 1) > 6):
+        print("Too many users")
+        return
     if current_user.login_status == True and current_user.admin_priviliages == True:
+        if(len(userID) > 16):
+            print("User Id too long")
+            return
         if userID in current_user.user_dict.keys():
             print("User ID already taken")
         else:
             newPassword = input("Password: ")
-            if newPassword == "":
-                print("Must have password")
+            if newPassword == "" or (len(newPassword) > 24):
+                print("Password length error")
+                return
             else:
                 current_user.user_dict[userID] = newPassword
                 current_user.current_id = userID
@@ -130,7 +137,6 @@ def listUsers(current_user):
     if current_user.login_status == True and current_user.admin_priviliages == True:        
         for key in current_user.user_dict:            
             print(key)
-            print("\n")
         print("OK")
     else:        
         print("Invalid Credentials")

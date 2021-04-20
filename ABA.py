@@ -71,9 +71,9 @@ class Current_User():
         except FileNotFoundError:pass
 
     def main_loop(self):
-        print("Welcome, input help at any time for assistance")
+        print("Address Book Application, version <1>. Type “HLP” for a list of commands.")
         while(True):
-            user_input = input("Command Input:")
+            user_input = input("ABA>")
             user_input = user_input.lower().strip().split(" ")
             num_args = len(user_input) - 1
             if user_input[0] in Func_Dict.keys():
@@ -85,7 +85,7 @@ class Current_User():
                         del user_input[2:-1]
                         num_args = 2
                     if user_input[0] == "ext":
-                        print("Thank you and good bye")
+                        print("Okay")
                         self.exit()
                     elif num_args == 0:
                         Func_Dict.get(user_input[0])(self)
@@ -94,12 +94,16 @@ class Current_User():
                     elif num_args == 2:
                         Func_Dict.get(user_input[0])(self, user_input[1], user_input[2])
                     else:
-                        print("Incorrect usage, input help for assistance")
+                        print("Unrecognized command")
                 except TypeError:
                     print("Incorrect number of parameters, input help for assistance")
             else:
-                print("Incorrect usage, input help for assistance")
+                print("Unrecognized command")
             if self.update_audit == True:
+                if len(self.audit_log) > 512:
+                    print("aduit log exceeding maximum size")
+                    self.update_audit = False
+                    continue
                 self.audit_log.append(self.audit)
                 self.audit = Audit()
                 self.update_audit = False
@@ -118,9 +122,11 @@ guy.login_status = True
 guy.admin_priviliages = True
 new_record = Record()
 new_record.fn = "wut"
-guy.database["1"] = new_record
+new_record.id = "1"
+guy.database[new_record.id] = new_record
 new_record = Record()
 new_record.fn = "wut"
 new_record.ln = "tf"
-guy.database["2"] = new_record
+new_record.id = "2"
+guy.database[new_record.id] = new_record
 guy.main_loop()
