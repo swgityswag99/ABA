@@ -1,5 +1,5 @@
 import json
-from User import Record
+from record import Record
 
 
 import base64

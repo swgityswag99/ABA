@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+
 
 import json
-from User import add_record, Record, delete_record, edit_record, get_record
+from record import add_record, Record, delete_record, edit_record, get_record
 from misc import print_help
 from misc import print_help
 from database import import_database, export_database
@@ -41,7 +40,7 @@ class Current_User():
         self.login_status = False
         self.admin_priviliages = False
         self.current_id = 0
-        self.user_dict = {}
+        self.user_dict = {"2":"bob"}
         self.admin_dict = {"1":"passwd"}
         self.database = {}
         self.audit_log = []
@@ -80,7 +79,7 @@ class Current_User():
                             temp.append(item)
                         del user_input[2:-1]
                         num_args = 2
-                    elif num_args == 0:
+                    if num_args == 0:
                         Func_Dict.get(user_input[0])(self)
                     elif num_args == 1:
                         Func_Dict.get(user_input[0])(self, user_input[1])
